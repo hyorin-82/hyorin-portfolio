@@ -1,2 +1,2 @@
-# Project3
-웹페이지 추가 확인용 프로젝트
+# hyorin-portfolio
+보안 엔지니어 지망 포트폴리오 | HTML · CSS · JavaScript · GitHub API
