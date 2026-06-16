@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIN HYORIN</title>
+  <link rel="icon" href="myWebicon.ico">
+
+  <!-- Boxing 폰트 (Fontshare) -->
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=boxing@400&display=swap">
+  <!-- Google Fonts: Archivo Black + Inter Tight -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:wght@400;800&family=Do+Hyeon&display=swap" rel="stylesheet">
+  <!-- Material Symbols (메뉴/닫기 아이콘) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <!-- Swiper (Timeline 슬라이더) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/projects.css">
+</head>
+<body>
+
+  <!-- 커스텀 커서 원 -->
+  <div id="customCursor"></div>
+
+  <!-- ====================================================
+       1. 인트로 로더 (MIN HYORIN 색 채움 + 퍼센트)
+  ==================================================== -->
+  <div id="frame">
+    <div class="intro-wrap">
+      <div class="title-box">
+        <span id="percent">0%</span>
+        <h1 id="fillTitle">MIN HYORIN</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       2. 메인 화면 (인트로 끝나면 show 클래스로 등장)
+  ==================================================== -->
+  <div id="mainScreen">
+
+    <!-- 메뉴 열기 버튼 (항상 우측 상단 고정) -->
+    <button id="menuBtn" aria-label="메뉴 열기">
+      <span class="material-symbols-outlined">menu</span>
+      <span class="icon-label">MENU</span>
+    </button>
+
+    <!-- ── 인트로 섹션 ── -->
+    <section class="intro" id="home">
+
+      <!-- 키워드 슬롯: 왼쪽 상단 고정 -->
+      <div class="kw-window">
+        <div id="kwTrack">
+          <div class="kw">NETWORK SECURITY</div>
+          <div class="kw">VULNERABILITY ANALYSIS</div>
+          <div class="kw">CLOUD SECURITY</div>
+          <div class="kw">NETWORK SECURITY</div><!-- 무한 루프용 복사본 -->
+        </div>
+      </div>
+
+      <!-- 가운데: 소개 텍스트 (위: 타이틀 / 아래: 설명) -->
+      <div class="intro-center fade-in" data-delay="0.2s">
+        <p class="intro-title">2029, 보안 엔지니어 포트폴리오</p>
+        <p class="intro-desc">보안을 공부하며 보냈던 시간들이 지금의 나를 만들었습니다.<br>클라우드 보안, 취약점 분석, 네트워크 —<br>하나씩 쌓아온 것들이 여기 담겨 있습니다.</p>
+      </div>
+
+      <!-- 하단: SECURITY 아치형 — 화면 아래 꽉 차게 (ENGINEER 숨김) -->
+      <div class="intro-bottom">
+        <h1 class="main-big-title security-line">
+          <span>S</span><span>E</span><span>C</span><span>U</span><span>R</span><span>I</span><span>T</span><span>Y</span>
+        </h1>
+      </div>
+
+    </section>
+
+    <!-- ── About Me 섹션 ── -->
+    <section class="about-section" id="about">
+      <div class="about-inner">
+
+        <!-- 왼쪽: 사진 -->
+        <div class="about-photo">
+          <img src="images/KakaoTalk_20260616_044320384.jpg" alt="민효린">
+        </div>
+
+        <!-- 오른쪽: 텍스트 -->
+        <div class="about-text">
+          <p class="about-label fade-in" data-delay="0s">About Me</p>
+          <h2 class="about-name fade-in" data-delay="0.25s">MIN HYORIN</h2>
+          <p class="about-para fade-in" data-delay="0.5s">현재 수원대학교 정보보호학과에 재학 중이며, 클라우드 보안과 네트워크 보안을 중심으로 공부하고 있습니다. 단순히 이론을 배우는 데 그치지 않고, 작은 것부터 직접 분석하고 실습하면서 보안 엔지니어로서의 기반을 만들어가고 있습니다. 보안이라는 분야는 끊임없이 변하기 때문에, 새로운 취약점과 공격 기법을 꾸준히 공부하는 것이 중요하다고 생각합니다.</p>
+          <p class="about-para fade-in" data-delay="0.75s">그 과정에서 클라우드 환경의 보안 구조와 취약점 분석에 특히 흥미를 느끼게 되었고, 지금은 그 방향으로 깊이를 더해가고 있습니다. 이 포트폴리오는 그동안 공부하고 실습하며 쌓아온 것들을 정리한 공간입니다. 완성된 결과물보다는 배워가는 과정을 솔직하게 담으려 했습니다.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Timeline 섹션 ── -->
+    <section class="timeline-section" id="timeline">
+
+      <!-- 헤더: TIMELINE 라벨 + PREV/NEXT 버튼 한 줄에 -->
+      <div class="tl-header fade-in">
+        <p class="tl-section-label">TIMELINE</p>
+        <div class="tl-header-nav">
+          <button class="tl-prev" aria-label="이전">PREV</button>
+          <button class="tl-next" aria-label="다음">NEXT</button>
+        </div>
+      </div>
+
+      <div class="tl-slider-wrap">
+
+        <div class="swiper tl-swiper">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide tl-card">
+              <h3 class="tl-year">2025</h3>
+              <div class="tl-line"></div>
+              <p class="tl-title">수원대학교 정보보호학과 입학</p>
+              <p class="tl-desc">정보보호학과에 입학</p>
+            </div>
+
+            <div class="swiper-slide tl-card">
+              <h3 class="tl-year">2026</h3>
+              <div class="tl-line"></div>
+              <p class="tl-title">한이음 프로젝트 공모전 수상</p>
+              <p class="tl-desc">팀 프로젝트로 한이음 ICT 멘토링 공모전 수상</p>
+            </div>
+
+            <div class="swiper-slide tl-card">
+              <h3 class="tl-year">2027</h3>
+              <div class="tl-line"></div>
+              <p class="tl-title">화이트햇스쿨 수료</p>
+              <p class="tl-desc">사이버보안 전문 교육과정 수료</p>
+            </div>
+
+            <div class="swiper-slide tl-card">
+              <h3 class="tl-year">2028</h3>
+              <div class="tl-line"></div>
+              <p class="tl-title">클라우드 보안 프로젝트 참여</p>
+              <p class="tl-desc">클라우드 환경 취약점 분석 프로젝트</p>
+            </div>
+
+            <div class="swiper-slide tl-card">
+              <h3 class="tl-year">2029</h3>
+              <div class="tl-line"></div>
+              <p class="tl-title">수원대학교 졸업 · BoB 수료</p>
+              <p class="tl-desc">정보보호학과 졸업 및 클라우드 융복합 복수전공<br>Best of the Best 수료</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /timeline-section -->
+
+    <!-- ── Projects 섹션 ── -->
+    <section class="projects-section" id="projects">
+
+      <!-- 큰 타이틀 -->
+      <h2 class="proj-big-title fade-in">PROJECTS</h2>
+
+      <!-- 피처드 프로젝트: 가로 한 줄씩 -->
+      <div class="proj-list fade-in" data-delay="0.1s">
+
+        <div class="proj-list-row">
+          <div class="proj-list-left">
+            <h3 class="proj-featured-name">Tetris</h3>
+            <p class="proj-featured-label">C · 콘솔 기반 퍼즐 게임</p>
+          </div>
+          <div class="proj-list-box">
+            <p class="proj-duo-feat">7가지 테트로미노 블록이 일정 속도로 아래로 떨어지며, 방향키와 회전키로 위치를 조정합니다. 가로 줄이 빈칸 없이 채워지면 해당 줄이 삭제되고 점수가 누적되며, 블록이 화면 최상단에 닿으면 게임 오버가 됩니다. 블록 충돌 감지, 줄 삭제 후 위 블록 낙하 처리, 타이머 기반 자동 하강 로직을 C언어로 직접 구현했으며, 점수가 높아질수록 블록 속도가 단계적으로 빨라지는 난이도 시스템도 포함했습니다.</p>
+          </div>
+          <a class="proj-list-github" href="https://github.com/hyorin-82/tetris-c" target="_blank" rel="noopener">VIEW ON<br>GITHUB →</a>
+        </div>
+
+        <div class="proj-list-row">
+          <div class="proj-list-left">
+            <h3 class="proj-featured-name">Push Push</h3>
+            <p class="proj-featured-label">C · 콘솔 기반 퍼즐 게임</p>
+          </div>
+          <div class="proj-list-box">
+            <p class="proj-duo-feat">2D 배열로 맵을 구성하고, 플레이어가 상자를 밀어 목표 지점에 올려놓는 창고지기 퍼즐 게임입니다. 방향키로 캐릭터를 이동하면 앞에 있는 상자가 함께 밀리고, 모든 상자가 지정된 목표 위치에 놓이면 스테이지 클리어가 됩니다. 벽과 상자 간의 충돌 판정, 이동 불가 상태 처리, 맵 파일 로드 구조를 C언어로 직접 설계했으며, 실수로 막힌 상황을 대비해 되돌리기 기능도 구현했습니다.</p>
+          </div>
+          <a class="proj-list-github" href="https://github.com/hyorin-82/push-game" target="_blank" rel="noopener">VIEW ON<br>GITHUB →</a>
+        </div>
+
+      </div>
+
+      <!-- GitHub API 자동 레포 목록 -->
+      <div id="projGrid"></div>
+
+    </section>
+
+  </div><!-- /mainScreen -->
+
+
+  <!-- ====================================================
+       메뉴 패널
+  ==================================================== -->
+  <nav id="menuPanel" aria-hidden="true">
+
+    <!-- 닫기 버튼: menuBtn과 같은 위치에 올라와서 클릭 가능 -->
+    <button id="closeBtn" aria-label="메뉴 닫기">
+      <span class="material-symbols-outlined">close</span>
+      <span class="icon-label">CLOSE</span>
+    </button>
+
+    <!-- 메인 영역: 왼쪽(이름) + 오른쪽(링크) -->
+    <div class="menu-inner">
+
+      <!-- 왼쪽: MIN-(고정) + HYORIN/ENGINEER/SECURITY 순환 -->
+      <div class="menu-left">
+        <div class="menu-name-wrap">
+          <span class="menu-prefix">MIN-</span>
+          <div class="menu-slot-window">
+            <div class="menu-slot-track">
+              <span class="menu-slot-item">HYORIN</span>
+              <span class="menu-slot-item">ENGINEER</span>
+              <span class="menu-slot-item">SECURITY</span>
+              <span class="menu-slot-item">HYORIN</span><!-- 무한루프용 복사본 -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오른쪽: 네비게이션 링크 + 구분선 -->
+      <div class="menu-right">
+        <ul class="nav-links">
+          <li><a class="nav-link" href="#about">About Me</a></li>
+          <li><a class="nav-link" href="#timeline">Timeline</a></li>
+          <li><a class="nav-link" href="#projects">Projects</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /menu-inner -->
+
+    <!-- 하단: 연락처 (메일 → 인스타 → 전화) -->
+    <div class="menu-footer">
+      <a href="mailto:MinHyoRin82@gmail.com">MinHyoRin82@gmail.com</a>
+      <a href="https://www.instagram.com/_hyoown/" target="_blank" rel="noopener">INSTAGRAM</a>
+      <a href="tel:01038899772">010-3889-9772</a>
+    </div>
+
+  </nav><!-- /menuPanel -->
+
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

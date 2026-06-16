@@ -1,0 +1,697 @@
+/* ============================================================
+   IMPORTS
+   ============================================================ */
+@import url('https://api.fontshare.com/v2/css?f[]=boxing@400&display=swap');
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg:      #0146d0;   /* 메인 배경 (파란색) */
+  --fg:      #ffffff;   /* 기본 텍스트 (흰색) */
+  --title:   #0a0a0a;   /* SECURITY ENGINEER 텍스트 (검정) */
+  --accent:  #0a0a0a;   /* 포인트 (검정) */
+  --nav-bg:  #FAF9F6;   /* 메뉴 패널 배경 */
+  --nav-fg:  #0a0a0a;   /* 메뉴 패널 텍스트 */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Archivo Black', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  cursor: none;
+  overflow-x: hidden; /* 큰 제목이 화면 밖으로 나가도 가로 스크롤 안 생기게 */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul { list-style: none; }
+
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+#customCursor {
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1.5px solid rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+
+/* ============================================================
+   INTRO LOADER (#frame)
+   ============================================================ */
+#frame {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.6s ease;
+}
+
+#frame.leave {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 윤곽선 박스 */
+.title-box {
+  position: relative;
+  border: 2px solid #0a0a0a;
+  padding: 48px 72px 44px;
+}
+
+/* 퍼센트 카운터 — 박스 왼쪽 위 모서리에 걸쳐서 (border 끊김 효과) */
+#percent {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: var(--bg); /* 완전 불투명 — 테두리 완전히 가림 */
+  padding: 0 10px;
+  z-index: 1;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.6); /* 텍스트만 살짝 투명 */
+}
+
+/* MIN HYORIN 타이틀 — JS가 아래서부터 흰색으로 채워줌 */
+#fillTitle {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(36px, 6vw, 88px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  background-image: linear-gradient(to top, #fff 0%, #fff 0%, #000 1%, #000 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ============================================================
+   MAIN SCREEN
+   ============================================================ */
+#mainScreen {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#mainScreen.show {
+  opacity: 1;
+}
+
+
+/* ============================================================
+   MENU BUTTON (항상 우측 상단 고정)
+   ============================================================ */
+#menuBtn {
+  position: fixed;
+  top: 32px;
+  right: 40px;
+  z-index: 500;
+  background: none;
+  border: none;
+  cursor: none;
+  color: var(--title); /* 파란 배경 위에 검정 아이콘 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.material-symbols-outlined {
+  font-size: 52.5px;
+  line-height: 1;
+}
+
+.icon-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+
+/* ============================================================
+   INTRO SECTION
+   ============================================================ */
+.intro {
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;       /* 자식 요소 절대 위치 기준 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  /* 가운데 텍스트 세로 중앙 */
+  overflow: hidden;         /* 큰 제목 바깥으로 나가도 인트로 안에서만 클립 */
+}
+
+/* 키워드 슬롯: 왼쪽 상단 고정 */
+.kw-window {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  overflow: hidden;
+  height: 30px;             /* kwItemHeight = 30 과 동일 */
+}
+
+#kwTrack {
+  display: flex;
+  flex-direction: column;
+  animation: kwSlotCycle 4.2s infinite;
+}
+
+@keyframes kwSlotCycle {
+  0%    { transform: translateY(0); }
+  19%   { transform: translateY(0);    animation-timing-function: cubic-bezier(0.65,0,0.35,1); }
+  33%   { transform: translateY(-25%); }
+  52%   { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.65,0,0.35,1); }
+  66%   { transform: translateY(-50%); }
+  85%   { transform: translateY(-50%); animation-timing-function: cubic-bezier(0.65,0,0.35,1); }
+  99%   { transform: translateY(-75%); animation-timing-function: steps(1, end); }
+  100%  { transform: translateY(0); }
+}
+
+.kw {
+  height: 30px;
+  line-height: 30px;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(11px, 1.1vw, 15px);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--fg);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+/* 가운데 소개 텍스트 */
+.intro-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  z-index: 1;
+}
+
+/* 위: 타이틀 (2029, 보안 엔지니어 포트폴리오) */
+.intro-title {
+  font-family: 'Do Hyeon', sans-serif;
+  font-size: clamp(20px, 2.8vw, 40px);
+  line-height: 1.3;
+  color: var(--fg);
+}
+
+/* 아래: 설명 문단 */
+.intro-desc {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(12px, 1.2vw, 16px);
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--fg);
+  opacity: 0.75;
+}
+
+/* 하단: SECURITY ENGINEER 텍스트 블록 */
+.intro-bottom {
+  position: absolute;
+  bottom: 0;                /* 화면 맨 아래 붙이기 */
+  left: 0;
+  width: 100%;
+  text-align: center;       /* 중앙 정렬 — 양 끝이 자연스럽게 화면 밖으로 */
+  line-height: 0.82;
+}
+
+/* SECURITY / ENGINEER 공통 */
+.main-big-title {
+  display: block;
+  font-family: 'Boxing', sans-serif;
+  color: var(--title);      /* 파란 배경 위에 검정 텍스트 */
+  line-height: 0.82;
+  white-space: nowrap;
+}
+
+.main-big-title span {
+  display: inline-block;
+  vertical-align: bottom;   /* 크기 달라도 아랫줄 맞춤 */
+}
+
+/* SECURITY: 양 끝 크고 가운데 작은 아치 (위쪽이 U자 곡선) */
+.security-line span:nth-child(1) { font-size: 17vw; } /* S */
+.security-line span:nth-child(2) { font-size: 15vw; } /* E */
+.security-line span:nth-child(3) { font-size: 13vw; } /* C */
+.security-line span:nth-child(4) { font-size: 12vw; } /* U */
+.security-line span:nth-child(5) { font-size: 12vw; } /* R */
+.security-line span:nth-child(6) { font-size: 13vw; } /* I */
+.security-line span:nth-child(7) { font-size: 15vw; } /* T */
+.security-line span:nth-child(8) { font-size: 17vw; } /* Y */
+
+/* ENGINEER: 가운데 크고 양 끝 작은 반대 아치 (위쪽이 ∩ 곡선) */
+.engineer-line span:nth-child(1) { font-size: 12vw; } /* E */
+.engineer-line span:nth-child(2) { font-size: 13vw; } /* N */
+.engineer-line span:nth-child(3) { font-size: 15vw; } /* G */
+.engineer-line span:nth-child(4) { font-size: 17vw; } /* I */
+.engineer-line span:nth-child(5) { font-size: 17vw; } /* N */
+.engineer-line span:nth-child(6) { font-size: 15vw; } /* E */
+.engineer-line span:nth-child(7) { font-size: 13vw; } /* E */
+.engineer-line span:nth-child(8) { font-size: 12vw; } /* R */
+
+
+/* ============================================================
+   FADE-IN (스크롤 등장)
+   ============================================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+/* ============================================================
+   MENU PANEL (#menuPanel)
+   z-index 600으로 #menuBtn(500)보다 위 → 열리면 버튼 가려져서
+   closeBtn만 노출되는 버그 수정
+   ============================================================ */
+#menuPanel {
+  position: fixed;
+  inset: 0;
+  background: var(--nav-bg);
+  color: var(--nav-fg);
+  z-index: 600;             /* menuBtn(500)보다 높아야 패널이 버튼을 덮음 */
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+#menuPanel.open {
+  transform: translateX(0);
+}
+
+/* 닫기 버튼: menuBtn과 같은 위치에 고정 */
+#closeBtn {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  z-index: 10;
+  background: none;
+  border: none;
+  cursor: none;
+  color: var(--nav-fg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+/* 메뉴 본문: 왼쪽(이름) + 오른쪽(링크) */
+.menu-inner {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 왼쪽: MIN- + 슬롯 */
+.menu-left {
+  flex: 0 0 58%;
+  display: flex;
+  align-items: center;
+  padding: 60px 80px;
+  border-right: 1px solid var(--nav-fg);
+}
+
+/* MIN- + 슬롯 가로 배치 */
+.menu-name-wrap {
+  display: flex;
+  align-items: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--nav-fg);
+}
+
+.menu-prefix {
+  white-space: nowrap;
+}
+
+/* 슬롯 창 (overflow:hidden으로 한 줄만 보임) */
+.menu-slot-window {
+  overflow: hidden;
+  height: 1em;
+}
+
+/* 슬롯 트랙: CSS 애니메이션으로 위로 순환 */
+.menu-slot-track {
+  display: flex;
+  flex-direction: column;
+  animation: menuSlotCycle 6s infinite;
+}
+
+.menu-slot-item {
+  height: 1em;
+  line-height: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* animation-timing-function은 해당 keyframe → 다음 keyframe 구간에 적용됨
+   - 28%에서 cubic-bezier 설정 → 28%~33% 구간이 부드럽게 전환
+   - 99%에서 steps(1,end) → 99%~100% 구간이 순간 리셋 (버그 수정) */
+@keyframes menuSlotCycle {
+  0%    { transform: translateY(0); }
+  28%   { transform: translateY(0);    animation-timing-function: cubic-bezier(0.65,0,0.35,1); }
+  33%   { transform: translateY(-25%); }                               /* ENGINEER */
+  61%   { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.65,0,0.35,1); }
+  66%   { transform: translateY(-50%); }                               /* SECURITY */
+  94%   { transform: translateY(-50%); animation-timing-function: cubic-bezier(0.65,0,0.35,1); }
+  99%   { transform: translateY(-75%); animation-timing-function: steps(1, end); } /* HYORIN 복사본 */
+  100%  { transform: translateY(0); }                                  /* 순간 리셋 */
+}
+
+/* 오른쪽: 네비게이션 링크 */
+.menu-right {
+  flex: 0 0 42%;
+  display: flex;
+  align-items: stretch;
+}
+
+.nav-links {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 각 항목: 세로로 균등 분할 + 구분선 */
+.nav-links li {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;           /* 텍스트 오른쪽 정렬 */
+  border-bottom: 1px solid var(--nav-fg);
+  padding: 0 48px;
+  overflow: hidden;
+}
+
+.nav-links li:first-child {
+  border-top: 1px solid var(--nav-fg);
+}
+
+/* Projects 아래 선과 footer 위 선이 겹쳐 두꺼워 보이는 버그 수정 */
+.nav-links li:last-child {
+  border-bottom: none;
+}
+
+.nav-links li a {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(72px, 13vh, 160px); /* 훨씬 크게, vh 기준 */
+  line-height: 1;
+  color: var(--nav-fg);
+  text-decoration: none;
+  display: inline-block;
+  transform-origin: right center;      /* 오른쪽 고정, 왼쪽에서 압축 */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 호버: 더 극적으로 압축 + 파란색으로 변경 */
+.nav-links li a:hover {
+  transform: scaleX(0.45);
+  color: var(--bg);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.2s ease;
+}
+
+/* 하단 연락처 바 */
+.menu-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-top: 1px solid var(--nav-fg);
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(10px, 1vw, 13px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--nav-fg);
+}
+
+.menu-footer a {
+  color: var(--nav-fg);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.menu-footer a:hover {
+  opacity: 0.5;
+}
+
+
+/* ============================================================
+   SECTION 공통
+   ============================================================ */
+.about-section,
+.timeline-section,
+.projects-section {
+  background: var(--bg);
+  padding: 72px 6vw 100px;
+  min-height: 100vh;
+}
+
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timeline-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-title {
+  font-family: 'Boxing', sans-serif;
+  font-size: clamp(36px, 6vw, 90px);
+  letter-spacing: -0.02em;
+  margin-bottom: 56px;
+  color: var(--fg);
+}
+
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about-section {
+  display: flex;
+  align-items: center;
+  padding: 0 16vw 0 8vw;
+}
+
+.about-inner {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  width: 100%;
+}
+
+/* 왼쪽: 사진 */
+.about-photo {
+  flex: 0 0 auto;
+  width: clamp(220px, 24vw, 340px);
+}
+
+.about-photo img {
+  width: 100%;
+  display: block;
+}
+
+/* 오른쪽: 텍스트 */
+.about-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* "About Me" 소제목 라벨 */
+.about-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--fg);
+  opacity: 0.55;
+}
+
+/* 이름 */
+.about-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(28px, 3.5vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+
+/* 본문 단락 */
+.about-para {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--fg);
+  opacity: 0.8;
+  word-break: keep-all;
+  text-align: justify;
+}
+
+
+/* ============================================================
+   TIMELINE SECTION
+   ============================================================ */
+/* 헤더 행: TIMELINE + PREV/NEXT */
+.tl-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.tl-section-label {
+  font-family: 'Boxing', sans-serif;
+  font-size: clamp(36px, 5vw, 72px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--fg);
+}
+
+.tl-header-nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.tl-slider-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.tl-swiper {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 슬라이드 카드 */
+.tl-card {
+  text-align: center;
+  opacity: 0.25;
+  transition: opacity 0.4s ease;
+}
+
+.swiper-slide-active.tl-card {
+  opacity: 1;
+}
+
+/* 연도 */
+.tl-year {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(64px, 9vw, 140px);
+  line-height: 1;
+  color: var(--fg);
+  margin-bottom: 20px;
+}
+
+/* 구분선 */
+.tl-line {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+  margin-bottom: 24px;
+}
+
+/* 이벤트 제목 */
+.tl-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(14px, 1.4vw, 20px);
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+
+/* 설명 */
+.tl-desc {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--fg);
+  opacity: 0.55;
+}
+
+/* 화살표 버튼 */
+.tl-prev,
+.tl-next {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--fg);
+  cursor: none;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  padding: 8px 4px;
+}
+
+.tl-prev:hover,
+.tl-next:hover {
+  opacity: 1;
+}
+
+.tl-prev.swiper-button-disabled,
+.tl-next.swiper-button-disabled {
+  opacity: 0.1;
+  pointer-events: none;
+}
